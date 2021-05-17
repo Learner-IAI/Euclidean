@@ -12,17 +12,8 @@ from polygon import *
 # Main executable block
 if __name__ == '__main__':
     pygame.init()
+    pygame.display.set_caption("Outer billiard by AD1")
     defh.GLOBAL_SCREEN = pygame.display.set_mode([500, 500])
-
-    points = [( ABsqrt2(1, 0) / 2,  ABsqrt2(1, 1) / 2),
-              ( ABsqrt2(1, 1) / 2,  ABsqrt2(1, 0) / 2),
-              ( ABsqrt2(1, 1) / 2, -ABsqrt2(1, 0) / 2),
-              ( ABsqrt2(1, 0) / 2, -ABsqrt2(1, 1) / 2),
-
-              (-ABsqrt2(1, 0) / 2, -ABsqrt2(1, 1) / 2),
-              (-ABsqrt2(1, 1) / 2, -ABsqrt2(1, 0) / 2),
-              (-ABsqrt2(1, 1) / 2,  ABsqrt2(1, 0) / 2),
-              (-ABsqrt2(1, 0) / 2,  ABsqrt2(1, 1) / 2)]
 
     # Main program loop
     running = True
@@ -34,7 +25,7 @@ if __name__ == '__main__':
         defh.GLOBAL_SCREEN.fill((255, 255, 255))
 
         # Draw stuff
-        p = polygon(points)
+        p = polygon.regular(12)
         p.draw()
 
         # Flip the display

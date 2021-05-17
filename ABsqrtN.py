@@ -1,6 +1,6 @@
 """
     PROJECT    : Outer billiards visualization project.
-    FILE       : ABsqrt2.py
+    FILE       : ABsqrtN.py
     AUTHOR     : Andrey Dmitrenko.
     PURPOSE    : This module contains one class
                  to represent the numbers of the form a + sqrt(2) * b.
@@ -11,13 +11,14 @@ from fractions import *
 
 
 '''
-    Number of the form a + sqrt(2) * b representation class.
+    Number of the form a + sqrt(N) * b representation class.
 
     Fields:
+        N (int): The whole number under the radical.
         _a, _b (Fraction): Rational coefficients representing the a and b.
         
     Methods:
-        __init__(a, b): The constructor
+        __init__(N, a, b): The constructor
         __neg__(): Unary minus operator.
         __add__(other),
         __sub__(other),
@@ -26,13 +27,15 @@ from fractions import *
                             (addition, subtraction, multiplication and division).
         __float__(): Cast to the floating point number.
 '''
-class ABsqrt2:
+class ABsqrtN:
     '''
-        The ABsqrt2 constructor.
+        The ABsqrtN constructor.
         Arguments:
+            N (int): The number to be under the radical
             a, b (numbers): Any rational numbers.
     '''
-    def __init__(self, a, b):
+    def __init__(self, N, a, b):
+        self.N = N
         self._a = Fraction(a)
         self._b = Fraction(b)
     # End of '__init__' function
@@ -41,61 +44,62 @@ class ABsqrt2:
         Unary minus operator.
         Arguments: None.
         Returns:
-            (ABsqrt2) Negated number.
+            (ABsqrtN) Negated number.
     '''
     def __neg__(self):
-        return ABsqrt2(-self._a, -self._b)
+        return ABsqrtN(self.N, -self._a, -self._b)
     # End of '__neg__' function
 
     '''
         Addition (+) operator.
         Arguments:
-            other (ABsqrt2): The number to sum with.
+            other (ABsqrtN): The number to sum with.
         Returns:
-            (ABsqrt2) The sum of two numbers.
+            (ABsqrtN) The sum of two numbers.
     '''
     def __add__(self, other):
-        return ABsqrt2(self._a + other._a, self._b + other._b)
+        return ABsqrtN(self.N, self._a + other._a, self._b + other._b)
     # End of '__add__' function
 
     '''
         Subtraction (-) operator.
         Arguments:
-            other (ABsqrt2): The number to subtract.
+            other (ABsqrtN): The number to subtract.
         Returns:
-            (ABsqrt2) The difference of two numbers.
+            (ABsqrtN) The difference of two numbers.
     '''
     def __sub__(self, other):
-        return ABsqrt2(self._a - other._a, self._b - other._b)
+        return ABsqrtN(self.N, self._a - other._a, self._b - other._b)
     # End of '__sub__' function
 
     '''
         Multiplication (*) operator.
         Arguments:
-            other (ABsqrt2): The number to multiply with.
+            other (ABsqrtN): The number to multiply with.
         Returns:
-            (ABsqrt2) The product of two numbers.
+            (ABsqrtN) The product of two numbers.
     '''
     def __mul__(self, other):
         if type(other) == type(self):
-            return ABsqrt2(self._a * other.a + 2 * self._b * other._b, self._a * other._b + self._b * other._a)
+            return ABsqrtN(self.N, self._a * other.a + self.N * self._b * other._b, self._a * other._b + self._b * other._a)
         else:
-            return ABsqrt2(self._a * other, self._b * other)
+            return ABsqrtN(self.N, self._a * other, self._b * other)
     # End of '__mul__' function
 
     '''
         Division (/) operator.
         Arguments:
-            other (ABsqrt2): The nonzero number to divide on.
+            other (ABsqrtN): The nonzero number to divide on.
         Returns:
-            (ABsqrt2) The quotient of two numbers.
+            (ABsqrtN) The quotient of two numbers.
     '''
     def __truediv__(self, other):
         if type(other) == type(self):
-            return ABsqrt2((self._a * other.a - 2 * self._b * other._b) / (other._a * other._a - 2 * other._b * other._b),
-                           (-self._a * other._b + self._b * other._a) / (other._a * other._a - 2 * other._b * other._b))
+            denom = other._a * other._a - self.N * other._b * other._b
+            return ABsqrtN(self.N, (self._a * other.a - self.N * self._b * other._b) / denom,
+                                   (-self._a * other._b + self._b * other._a) / denom)
         else:
-            return ABsqrt2(self._a / other, self._b / other)
+            return ABsqrtN(self.N, self._a / other, self._b / other)
     # End of '__truediv__' function
 
     '''
@@ -105,8 +109,8 @@ class ABsqrt2:
             (float) The approximate value of the representing number.
     '''
     def __float__(self):
-        return float(self._a) + 2**0.5 * float(self._b)
+        return float(self._a) + self.N**0.5 * float(self._b)
     # End of '__float__' function
-# End of 'ABsqrt2' class
+# End of 'ABsqrtN' class
 
-# END OF 'ABsqrt2.py' FILE
+# END OF 'ABsqrtN.py' FILE

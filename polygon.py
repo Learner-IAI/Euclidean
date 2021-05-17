@@ -6,9 +6,11 @@
     LAST UPDATE: 17.05.2021.
 """
 
+from math import pi, sin, cos
+
 import defh
 from defh import pygame
-from ABsqrt2 import ABsqrt2
+from ABsqrtN import ABsqrtN
 
 
 '''
@@ -40,6 +42,46 @@ class polygon:
     def draw(self):
         pygame.draw.polygon(defh.GLOBAL_SCREEN, (0, 0, 0),
                             list(map(lambda x: defh.to_screen((float(x[0]), float(x[1]))), self.points)))
+
+    '''
+        Create a regular polygon of a given number of vertices and side of the length 1.
+        Arguments:
+            n (int): The number of polygon vertices.
+        Returns:
+            (polygon) A regular polygon with n vertices.
+    '''
+    @staticmethod
+    def regular(n):
+        if n == 3:
+            return polygon([(0, ABsqrtN(3, 0, 1 / 3)),
+                            (1 / 2, -ABsqrtN(3, 0, 1 / 6)),
+                            (-1 / 2, -ABsqrtN(3, 0, 1 / 6))])
+        elif n == 4:
+            return polygon([(1 / 2, 1 / 2),
+                            (1 / 2, -1 / 2),
+                            (-1 / 2, -1 / 2),
+                            (-1 / 2, 1 / 2)])
+        elif n == 6:
+            return polygon([(1, 0),
+                            (1 / 2, -ABsqrtN(3, 0, 1 / 2)),
+                            (-1 / 2, -ABsqrtN(3, 0, 1 / 2)),
+                            (-1, 0),
+                            (-1 / 2, ABsqrtN(3, 0, 1 / 2)),
+                            (1 / 2, ABsqrtN(3, 0, 1 / 2))])
+        elif n == 8:
+            return polygon([(1 / 2,  ABsqrtN(2, 1, 1) / 2),
+                            (ABsqrtN(2, 1, 1) / 2,  1 / 2),
+                            (ABsqrtN(2, 1, 1) / 2, -1 / 2),
+                            (1 / 2, -ABsqrtN(2, 1, 1) / 2),
+
+                            (-1 / 2, -ABsqrtN(2, 1, 1) / 2),
+                            (-ABsqrtN(2, 1, 1) / 2, -1 / 2),
+                            (-ABsqrtN(2, 1, 1) / 2, 1 / 2),
+                            (-1 / 2,  ABsqrtN(2, 1, 1) / 2)])
+        else:
+            mul = 2 * sin(pi / n)
+            return polygon([(cos(2 * pi / n * i) / mul, sin(2 * pi / n * i) / mul) for i in range(0, n)])
+    # End of 'regular' function
 # End of 'polygon' class
 
 # END OF 'polygon.py' FILE

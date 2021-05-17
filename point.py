@@ -21,7 +21,7 @@
         __mul__(other),
         __truediv__(other): Standard arithmetic operators
                             (addition, subtraction, multiplication and division).
-        __tuple__(): Cast to the tuple.
+        __iter__(): Iterate the point (needed for the tuple cast mostly).
         is_right_of(other): Check the vector is 'more to the right' than the other.
         reflect_about(other): Reflect the point about the other one. 
 '''
@@ -89,14 +89,15 @@ class point:
     # End of '__truediv__' function
 
     '''
-        Cast point to the tuple.
+        Iterate the point (needed for the tuple cast mostly).
         Arguments: None.
-        Returns:
-            (tuple) The (x, y) tuple.
+        Yields: 
+            (number) The point coordinate.
     '''
-    def __tuple__(self):
-        return (self.x, self.y)
-    # End of '__tuple__' function
+    def __iter__(self):
+        yield self.x
+        yield self.y
+    # End of '__iter__' function
 
     '''
         Check if the vector is 'more to the right' than the other one.

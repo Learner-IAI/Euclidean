@@ -9,6 +9,25 @@
 from render import *
 from billiard import *
 
+# Global variables
+POLYGON = None
+BILLIARD = None
+
+
+'''
+    Init some upper-level logic.
+    Arguments: None.
+    Returns: None.
+'''
+def init():
+    global POLYGON
+    global BILLIARD
+
+    POLYGON = polygon.regular(5)
+    BILLIARD = billiard(POLYGON)
+    BILLIARD.build_bound(1)
+# End of 'init' function
+
 
 '''
     Main drawing callback.
@@ -17,18 +36,16 @@ from billiard import *
     Returns: None.
 '''
 def draw(rnd):
-    pol = polygon.regular(12)
-    # blrd = billiard(pol)
-    pol.draw(rnd, (0, 0, 0))
-
-    rnd.draw_segment((0, 0), (1, 1), (0, 255, 0))
-    rnd.draw_ray((0, 0), (-1, -1), (255, 0, 0))
+    BILLIARD.draw_polygon(rnd)
+    BILLIARD.draw_bound(rnd)
 # End of 'draw' function
 
 
 # Main executable block
 if __name__ == '__main__':
     rnd = render(500, 500, draw)
+    init()
+
     rnd.run()
 # End of main executable block
 

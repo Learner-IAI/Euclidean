@@ -36,11 +36,14 @@ class render:
             draw(rnd): The drawing callback.
     '''
     def __init__(self, sw, sh, draw):
+        pygame.init()
+
+        pygame.display.set_caption("Outer billiard by AD1")
+        icon = pygame.image.load("pent.png")
+        pygame.display.set_icon(icon)
+
         self.screen = pygame.display.set_mode([sw, sh])
         self.draw = draw
-
-        pygame.init()
-        pygame.display.set_caption("Outer billiard by AD1")
     # End of '__init__' function
 
     '''
@@ -62,6 +65,7 @@ class render:
     '''
     def run(self):
         running = True
+
         while running:
             # Process the quit event
             for event in pygame.event.get():

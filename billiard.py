@@ -37,6 +37,7 @@ class billiard:
     '''
     def transform(self, p):
         return p.reflect_about(rightest(p, self.plg.points))
+    # End of 'transform' function
 # End of 'billiard' class
 
 # END OF 'billiard.py' FILE

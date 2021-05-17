@@ -8,8 +8,7 @@
 
 from math import pi, sin, cos
 
-import defh
-from defh import pygame
+from render import *
 from ABsqrtN import ABsqrtN
 from point import *
 
@@ -38,12 +37,13 @@ class polygon:
     '''
         Draw the polygon on the screen.
         Arguments:
+            rnd (render): The rendering context to draw in.
             color (tuple): 3-component RGB color to draw with.
         Returns: None.
     '''
-    def draw(self, color):
-        pygame.draw.polygon(defh.GLOBAL_SCREEN, color,
-                            list(map(lambda p: defh.to_screen((float(p.x), float(p.y))), self.points)))
+    def draw(self, rnd, color):
+        pygame.draw.polygon(rnd.screen, color,
+                            list(map(lambda p: rnd.to_screen((float(p.x), float(p.y))), self.points)))
 
     '''
         Create a regular polygon of a given number of vertices and side of the length 1.

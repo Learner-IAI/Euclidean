@@ -11,18 +11,19 @@ from math import pi, sin, cos
 import defh
 from defh import pygame
 from ABsqrtN import ABsqrtN
+from point import *
 
 
 '''
     The polygon representation class.
     
     Fields:
-        points (tuple[]): The array of the (x, y)-tuples
+        points (point[]): The array of the (x, y)-tuples
                           representing each vertex coordinates.
     
     Methods:
         __init__(points): The constructor.
-        draw(): Draw the polygon on the screen. 
+        draw(color): Draw the polygon on the screen. 
 '''
 class polygon:
     '''
@@ -31,17 +32,18 @@ class polygon:
             points (tuple[]): The array of the coordinates of the vertices.
     '''
     def __init__(self, points):
-        self.points = points
+        self.points = [point(xy[0], xy[1]) for xy in points]
     # End of '__init__' function
 
     '''
         Draw the polygon on the screen.
-        Arguments: None.
+        Arguments:
+            color (tuple): 3-component RGB color to draw with.
         Returns: None.
     '''
-    def draw(self):
-        pygame.draw.polygon(defh.GLOBAL_SCREEN, (0, 0, 0),
-                            list(map(lambda x: defh.to_screen((float(x[0]), float(x[1]))), self.points)))
+    def draw(self, color):
+        pygame.draw.polygon(defh.GLOBAL_SCREEN, color,
+                            list(map(lambda p: defh.to_screen((float(p.x), float(p.y))), self.points)))
 
     '''
         Create a regular polygon of a given number of vertices and side of the length 1.

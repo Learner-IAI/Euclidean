@@ -94,7 +94,7 @@ class point:
     '''
     def is_right_of(self, other):
         det = self.x * other.y - self.y * other.x
-        return 0 if det == 0 else det / abs(det)
+        return 0 if det == 0 else -det / abs(det)
     # End of 'is_right_of' function
 
     '''
@@ -105,7 +105,7 @@ class point:
             (point) The reflected point.
     '''
     def reflect_about(self, other):
-        return self + 2 * (other - self)
+        return self + (other - self) * 2
     # End of 'reflect_about' function
 # End of 'point' class
 
@@ -123,10 +123,10 @@ class point:
 def rightest(pnt, points):
     res = points[0]
     for p in points[1:]:
-        if (p - pnt).IsRightOf(pnt - res) > 0:
+        if (p - pnt).is_right_of(pnt - res) > 0:
             res = p
     for p in points:
-        if p is not res and (p - pnt).IsRightOf(pnt - res) == 0:
+        if p is not res and (p - pnt).is_right_of(pnt - res) == 0:
             return None
     return res
 # End of 'rightest' function

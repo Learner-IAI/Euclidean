@@ -6,7 +6,7 @@
     LAST UPDATE: 17.05.2021.
 """
 
-from polygon import *
+from billiard import *
 
 
 # Main executable block
@@ -22,11 +22,11 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-        defh.GLOBAL_SCREEN.fill((255, 255, 255))
-
         # Draw stuff
+        defh.GLOBAL_SCREEN.fill((255, 255, 255))
         p = polygon.regular(12)
-        p.draw()
+        blrd = billiard(p)
+        p.draw((0, 0, 0))
 
         # Flip the display
         pygame.display.flip()

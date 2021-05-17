@@ -84,7 +84,7 @@ class polygon:
                             (-1 / 2,  ABsqrtN(2, 1, 1) / 2)])
         else:
             mul = 2 * sin(pi / n)
-            return polygon([(-cos(2 * pi / n * i) / mul, -sin(2 * pi / n * i) / mul) for i in range(0, n)])
+            return polygon([(cos(-2 * pi / n * i) / mul, sin(-2 * pi / n * i) / mul) for i in range(0, n)])
     # End of 'regular' function
 # End of 'polygon' class
 

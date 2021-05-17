@@ -1,15 +1,19 @@
-import pygame
+"""
+    PROJECT    : Outer billiards visualization project.
+    FILE       : main.py
+    AUTHOR     : Andrey Dmitrenko.
+    PURPOSE    : Main executable file of the project.
+    LAST UPDATE: 17.05.2021.
+"""
 
-import defh
 from polygon import *
 
+
+# Main executable block
 if __name__ == '__main__':
     pygame.init()
-
-    # Set up the drawing window
     defh.GLOBAL_SCREEN = pygame.display.set_mode([500, 500])
 
-    # Run until the user asks to quit
     points = [( ABsqrt2(1, 0) / 2,  ABsqrt2(1, 1) / 2),
               ( ABsqrt2(1, 1) / 2,  ABsqrt2(1, 0) / 2),
               ( ABsqrt2(1, 1) / 2, -ABsqrt2(1, 0) / 2),
@@ -20,20 +24,22 @@ if __name__ == '__main__':
               (-ABsqrt2(1, 1) / 2,  ABsqrt2(1, 0) / 2),
               (-ABsqrt2(1, 0) / 2,  ABsqrt2(1, 1) / 2)]
 
+    # Main program loop
     running = True
     while running:
-        # Did the user click the window close button?
+        # Process the quit event
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-
-        # Fill the background with white
         defh.GLOBAL_SCREEN.fill((255, 255, 255))
 
-        # Draw the polygon
+        # Draw stuff
         p = polygon(points)
         p.draw()
 
         # Flip the display
         pygame.display.flip()
     pygame.quit()
+# End of main executable block
+
+# END OF 'main.py' FILE

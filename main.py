@@ -13,13 +13,16 @@ from billiard import *
 '''
     Main drawing callback.
     Arguments:
-        rnd (render): The rendering context to dra.
+        rnd (render): The rendering context.
     Returns: None.
 '''
 def draw(rnd):
-    p = polygon.regular(12)
-    blrd = billiard(p)
-    p.draw(rnd, (0, 0, 0))
+    pol = polygon.regular(12)
+    # blrd = billiard(pol)
+    pol.draw(rnd, (0, 0, 0))
+
+    rnd.draw_segment((0, 0), (1, 1), (0, 255, 0))
+    rnd.draw_ray((0, 0), (-1, -1), (255, 0, 0))
 # End of 'draw' function
 
 

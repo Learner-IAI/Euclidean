@@ -21,6 +21,7 @@
         __mul__(other),
         __truediv__(other): Standard arithmetic operators
                             (addition, subtraction, multiplication and division).
+        __tuple__(): Cast to the tuple.
         is_right_of(other): Check the vector is 'more to the right' than the other.
         reflect_about(other): Reflect the point about the other one. 
 '''
@@ -31,9 +32,13 @@ class point:
             x, y (numbers): Any numbers (floats or Fractions)
                             representing the point coordinates.
     '''
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self, x, y=None):
+        if type(x) == tuple:
+            self.x = x[0]
+            self.y = x[1]
+        else:
+            self.x = x
+            self.y = y
     # End of '__init__' function
 
     '''
@@ -82,6 +87,16 @@ class point:
     def __truediv__(self, other):
         return point(self.x / other, self.y / other)
     # End of '__truediv__' function
+
+    '''
+        Cast point to the tuple.
+        Arguments: None.
+        Returns:
+            (tuple) The (x, y) tuple.
+    '''
+    def __tuple__(self):
+        return (self.x, self.y)
+    # End of '__tuple__' function
 
     '''
         Check if the vector is 'more to the right' than the other one.

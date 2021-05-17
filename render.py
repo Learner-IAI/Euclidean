@@ -12,6 +12,7 @@ import pygame
     Render entity representation class.
 
     Fields:
+        static GLOBAL_W, GLOBAL_H (float): Global field sizes. 
         screen (Surface): The screen to render to.
         draw(): The drawing callback.
         
@@ -19,6 +20,9 @@ import pygame
         __init__(sw, sh, draw): The constructor.
         to_screen(xy): Convert local point coordinates to pixel coordinates.
         run(rnd): Run the main program loop.
+
+        draw_segment(p1, p2, color): Draw the segment.
+        draw_ray(p1, p2, color): Draw the ray.
 '''
 class render:
     # Global screen sizes (in local coordinate system)
@@ -72,6 +76,34 @@ class render:
             pygame.display.flip()
         pygame.quit()
     # End of 'run' function
+
+    '''
+        Draw the line segment.
+        Arguments:
+            p1, p2 (point): The edges of the segment.
+            color (tuple): 3-component RGB color to draw with.
+        Returns: None.
+    '''
+    def draw_segment(self, p1, p2, color=(0, 0, 0)):
+        pygame.draw.line(self.screen, color, self.to_screen(tuple(p1)), self.to_screen(tuple(p2)))
+    # End of 'draw_segment' function
+
+    '''
+        Draw the ray.
+        Arguments:
+            p1, p2 (point): The vertex and some point on the ray.
+            color (tuple): 3-component RGB color to draw with.
+        Returns: None.
+    '''
+    def draw_ray(self, p1, p2, color=(0, 0, 0)):
+        _p1 = tuple(p1)
+        _p2 = tuple(p2)
+        diff = (_p2[0] - _p1[0], _p2[1] - _p1[1])
+        while abs(_p1[0]) < self.GLOBAL_W / 2 and abs(_p1[1]) < self.GLOBAL_H / 2:
+            pygame.draw.line(self.screen, color, self.to_screen(_p1), self.to_screen(_p2))
+            _p1 = (_p1[0] + diff[0], _p1[1] + diff[1])
+            _p2 = (_p2[0] + diff[0], _p2[1] + diff[1])
+    # End of 'draw_ray' function
 # End of 'render' class
 
 # END OF 'render.py' FILE

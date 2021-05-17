@@ -22,7 +22,8 @@ from point import *
     
     Methods:
         __init__(points): The constructor.
-        draw(color): Draw the polygon on the screen. 
+        draw(color): Draw the polygon on the screen.
+        static regular(n): Create the regular polygon with n vertices.
 '''
 class polygon:
     '''
@@ -44,6 +45,7 @@ class polygon:
     def draw(self, rnd, color):
         pygame.draw.polygon(rnd.screen, color,
                             list(map(lambda p: rnd.to_screen((float(p.x), float(p.y))), self.points)))
+    # End of 'draw' function
 
     '''
         Create a regular polygon of a given number of vertices and side of the length 1.

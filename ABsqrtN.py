@@ -34,10 +34,13 @@ class ABsqrtN:
             N (int): The number to be under the radical
             a, b (numbers): Any rational numbers.
     '''
-    def __init__(self, N, a, b):
+    def __init__(self, N, a, b=None):
         self.N = N
         self._a = Fraction(a)
-        self._b = Fraction(b)
+        if b is None:
+            self._b = 0
+        else:
+            self._b = Fraction(b)
     # End of '__init__' function
 
     '''
@@ -58,6 +61,7 @@ class ABsqrtN:
             (ABsqrtN) The sum of two numbers.
     '''
     def __add__(self, other):
+        other = ABsqrtN(self.N, other)
         return ABsqrtN(self.N, self._a + other._a, self._b + other._b)
     # End of '__add__' function
 
@@ -69,6 +73,7 @@ class ABsqrtN:
             (ABsqrtN) The difference of two numbers.
     '''
     def __sub__(self, other):
+        other = ABsqrtN(self.N, other)
         return ABsqrtN(self.N, self._a - other._a, self._b - other._b)
     # End of '__sub__' function
 

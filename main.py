@@ -24,7 +24,7 @@ def init():
     global POLYGON
     global BILLIARD
 
-    POLYGON = polygon.regular(4)
+    POLYGON = polygon.regular(8)
     BILLIARD = billiard(POLYGON)
     BILLIARD.build_bound(1, rnd)
 # End of 'init' function
@@ -37,7 +37,8 @@ def init():
     Returns: None.
 '''
 def draw(rnd):
-    seg = segment(point(0, 2, 2), point(-1, 2, 2))
+    # seg = segment(point(ABsqrtN(2, 1, 1) / 2, -2, 2), point(-3, -1/2, 2))
+    seg = segment(point(0, 3, 2), point(-5/2, -2, 2))
     seg.draw(rnd, (0, 0, 255))
     refl = BILLIARD.transform(seg)
     if type(refl) == segment:

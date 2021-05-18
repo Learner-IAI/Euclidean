@@ -86,7 +86,7 @@ class billiard:
             if type(v1) is point and type(v2) is point:
                 # Split...
                 if v1 is not v2:
-                    rig = rightest(point(0, 0), [v1, v2], not left)
+                    rig = rightest(point(0, 0), [v1, v2], not left)  # Very bugged for the square; seems unfixable
                     v = segment(rig, self.plg.points[(self.plg.points.index(rig) + int(not left))
                                                      % len(self.plg.points)])
                     return self.pack_split(p, v, left)
@@ -116,7 +116,8 @@ class billiard:
                 if v__ is v_.p1 or v__ is v_.p2:
                     return segment(p.p1.reflect_about(v__), p.p2.reflect_about(v__))
                 # Split...
-                rig = rightest(point(0, 0), [v_.p1, v_.p2, v__], left)
+                targ = p.p1 if v_ is v1 else p.p2
+                rig = v_.p1 if (v_.p1 - targ).len2() < (v_.p2 - targ).len2() else v_.p2
                 v = segment(rig, self.plg.points[(self.plg.points.index(rig) + int(not left))
                                                  % len(self.plg.points)])
                 return self.pack_split(p, v, left)

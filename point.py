@@ -43,6 +43,26 @@ class point:
             self.x = ABsqrtN(n_for_sqrt, x)
             self.y = ABsqrtN(n_for_sqrt, y)
     # End of '__init__' function
+    
+    '''
+    	Evaluate the squared magnitude of the vector.
+    	Arguments: None.
+    	Returns:
+    		(float) The squared vector magnitude.
+    '''
+    def len2(self):
+    	return self.x * self.x + self.y * self.y
+    # End of 'len2'' function
+    
+    '''
+    	Evaluate the magnitude of the vector.
+    	Arguments: None.
+    	Returns:
+    		(float) The vector magnitude.
+    '''
+    def __abs__(self):
+    	return sqrt(self.len2())
+    # End of '__abs__' function
 
     '''
         Addition (+) operator.

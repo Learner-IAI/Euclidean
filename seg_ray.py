@@ -45,7 +45,7 @@ class segment:
         y3 = other.p1.y; y4 = other.p2.y
 
         det = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
-        if det == 0:
+        if float(det) == 0:
             return None
         return point(((x1 * y2 - y1 * x2) * (x3 - x4) -
         					    (x1 - x2) * (x3 * y4 - y3 * x4)) / det,

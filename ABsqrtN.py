@@ -24,9 +24,12 @@ from fractions import *
         __sub__(other),
         __mul__(other),
         __truediv__(other): Standard arithmetic operators 
-                            (addition, subtraction, multiplication and division).
+                            (addition, subtraction, multiplication and division)
+
         __float__(): Cast to the floating point number.
         __int__(): Cast to the integer.
+        __lt__(other): 'less than' comparation operator.
+        __gt__(other): 'greater than' comparation operator.
 '''
 class ABsqrtN:
     '''
@@ -143,6 +146,28 @@ class ABsqrtN:
     def __int__(self):
         return int(float(self))
     # End of '__int__' function
+    
+    '''
+    	'less than' comparation operator.
+    	Argements:
+    		other (ABsqrtN): Number to compare with.
+    	Returns:
+    		(bool) True if self < other, False otherwise.
+    '''
+    def __lt__(self, other):
+    	return float(self) < float(other)
+    # End of '__lt__' function
+    
+    '''
+    	'greater than' comparation operator.
+    	Argements:
+    		other (ABsqrtN): Number to compare with.
+    	Returns:
+    		(bool) True if self > other, False otherwise.
+    '''
+    def __gt__(self, other):
+    	return float(self) > float(other)
+    # End of '__gt__' function
 # End of 'ABsqrtN' class
 
 # END OF 'ABsqrtN.py' FILE

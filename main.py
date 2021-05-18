@@ -7,6 +7,7 @@
 """
 
 from render import *
+import pygame
 from billiard import *
 
 # Global variables

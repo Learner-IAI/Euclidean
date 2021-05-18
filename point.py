@@ -6,7 +6,6 @@
     LAST UPDATE: 18.05.2021.
 """
 
-from seg_ray import segment
 from ABsqrtN import *
 
 
@@ -114,7 +113,7 @@ class point:
     '''
     def is_right_of(self, other):
         det = self.x * other.y - self.y * other.x
-        return 0 if det == 0 else -float(det) / abs(float(det))
+        return 0 if float(det) == 0 else -float(det) / abs(float(det))
     # End of 'is_right_of' function
 
     '''
@@ -128,29 +127,5 @@ class point:
         return self + (other - self) * 2
     # End of 'reflect_about' function
 # End of 'point' class
-
-
-'''
-    Find the 'most right' point in the array
-      from the perspective of some particular point.
-    Arguments:
-        pnt (point): The point from which to look.
-        points (point[]): The array of points to find the 'most right' one in.
-        leftest (bool): Flag to evaluate the leftest point instead of the rightest (False by default).
-    Returns:
-        (point or segment): The rightest points from the array or
-                            the whoel segment if there was no one particular rightest point. 
-'''
-def rightest(pnt, points, leftest=False):
-    res = points[0]
-    for p in points[1:]:
-        if (not leftest and (p - pnt).is_right_of(pnt - res) > 0 or
-                leftest and (p - pnt).is_right_of(pnt - res) < 0):
-            res = p
-    for p in points:
-        if p is not res and (p - pnt).is_right_of(pnt - res) == 0:
-            return segment(p, res)
-    return res
-# End of 'rightest' function
 
 # END OF 'point.py' FILE

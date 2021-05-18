@@ -3,7 +3,7 @@
     FILE       : main.py
     AUTHOR     : Andrey Dmitrenko.
     PURPOSE    : Main executable file of the project.
-    LAST UPDATE: 17.05.2021.
+    LAST UPDATE: 18.05.2021.
 """
 
 from render import *
@@ -23,9 +23,9 @@ def init():
     global POLYGON
     global BILLIARD
 
-    POLYGON = polygon.regular(5)
+    POLYGON = polygon.regular(8)
     BILLIARD = billiard(POLYGON)
-    BILLIARD.build_bound(1)
+    BILLIARD.build_bound(1, rnd)
 # End of 'init' function
 
 
@@ -36,6 +36,17 @@ def init():
     Returns: None.
 '''
 def draw(rnd):
+    seg = segment(point(0, 3, 2), point(1, 3, 2))
+    seg.draw(rnd, (0, 0, 255))
+    refl = BILLIARD.transform(seg)
+    if type(refl) == segment:
+        refl.draw(rnd, (255, 0, 0))
+    elif type(refl) == list:
+        for s in refl:
+            s.draw(rnd, (255, 0, 0))
+    else:
+        print(refl)
+
     BILLIARD.draw_polygon(rnd)
     BILLIARD.draw_bound(rnd)
 # End of 'draw' function

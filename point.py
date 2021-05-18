@@ -3,8 +3,11 @@
     FILE       : point.py
     AUTHOR     : Andrey Dmitrenko.
     PURPOSE    : The 2d-point class implementation module.
-    LAST UPDATE: 17.05.2021.
+    LAST UPDATE: 18.05.2021.
 """
+
+from seg_ray import segment
+from ABsqrtN import *
 
 
 '''
@@ -15,7 +18,7 @@
                         representing the point coordinates.
     
     Methods:
-        __init__(x, y): The constructor.
+        __init__(x, y, n_for_sqrt): The constructor.
         __add__(other),
         __sub__(other),
         __mul__(other),
@@ -29,16 +32,17 @@ class point:
     '''
         The point class constructor.
         Arguments:
-            x, y (numbers): Any numbers (floats or Fractions)
+            x, y (numbers): Any numbers (floats or Fractions or ABsqrtN-s)
                             representing the point coordinates.
+            n_for_sqrt (int): The number under the radical for ABsqrtN-points.
     '''
-    def __init__(self, x, y=None):
+    def __init__(self, x, y, n_for_sqrt=0):
         if type(x) == tuple:
-            self.x = x[0]
-            self.y = x[1]
+            self.x = ABsqrtN(n_for_sqrt, x[0])
+            self.y = ABsqrtN(n_for_sqrt, x[1])
         else:
-            self.x = x
-            self.y = y
+            self.x = ABsqrtN(n_for_sqrt, x)
+            self.y = ABsqrtN(n_for_sqrt, y)
     # End of '__init__' function
 
     '''
@@ -110,7 +114,7 @@ class point:
     '''
     def is_right_of(self, other):
         det = self.x * other.y - self.y * other.x
-        return 0 if det == 0 else -det / abs(det)
+        return 0 if det == 0 else -float(det) / abs(float(det))
     # End of 'is_right_of' function
 
     '''
@@ -132,18 +136,20 @@ class point:
     Arguments:
         pnt (point): The point from which to look.
         points (point[]): The array of points to find the 'most right' one in.
+        leftest (bool): Flag to evaluate the leftest point instead of the rightest (False by default).
     Returns:
-        (point or NoneType): The rightest points from the array or
-                             None if there was no one particular rightest point. 
+        (point or segment): The rightest points from the array or
+                            the whoel segment if there was no one particular rightest point. 
 '''
-def rightest(pnt, points):
+def rightest(pnt, points, leftest=False):
     res = points[0]
     for p in points[1:]:
-        if (p - pnt).is_right_of(pnt - res) > 0:
+        if (not leftest and (p - pnt).is_right_of(pnt - res) > 0 or
+                leftest and (p - pnt).is_right_of(pnt - res) < 0):
             res = p
     for p in points:
         if p is not res and (p - pnt).is_right_of(pnt - res) == 0:
-            return None
+            return segment(p, res)
     return res
 # End of 'rightest' function
 

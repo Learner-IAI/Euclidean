@@ -30,9 +30,10 @@ class polygon:
         The polygon class constructor.
         Arguments:
             points (tuple[]): The array of the coordinates of the vertices.
+            n_for_sqrt (int): The number under the radical for ABsqrtN-polygons.
     '''
-    def __init__(self, points):
-        self.points = [point(xy[0], xy[1]) for xy in points]
+    def __init__(self, points, n_for_sqrt=0):
+        self.points = [point(xy[0], xy[1], n_for_sqrt) for xy in points]
     # End of '__init__' function
 
     '''
@@ -57,31 +58,31 @@ class polygon:
     @staticmethod
     def regular(n):
         if n == 3:
-            return polygon([(0, ABsqrtN(3, 0, 1 / 3)),
-                            (1 / 2, -ABsqrtN(3, 0, 1 / 6)),
-                            (-1 / 2, -ABsqrtN(3, 0, 1 / 6))])
+            return polygon([(ABsqrtN(3, 0), ABsqrtN(3, 0, 1 / 3)),
+                            (ABsqrtN(3, 1 / 2), -ABsqrtN(3, 0, 1 / 6)),
+                            (ABsqrtN(3, -1 / 2), -ABsqrtN(3, 0, 1 / 6))], 3)
         elif n == 4:
-            return polygon([(1 / 2, 1 / 2),
-                            (1 / 2, -1 / 2),
-                            (-1 / 2, -1 / 2),
-                            (-1 / 2, 1 / 2)])
+            return polygon([(ABsqrtN(2, 1 / 2), ABsqrtN(2, 1 / 2)),
+                            (ABsqrtN(2, 1 / 2), ABsqrtN(2, -1 / 2)),
+                            (ABsqrtN(2, -1 / 2), ABsqrtN(2, -1 / 2)),
+                            (ABsqrtN(2, -1 / 2), ABsqrtN(2, 1 / 2))], 2)
         elif n == 6:
-            return polygon([(1, 0),
-                            (1 / 2, -ABsqrtN(3, 0, 1 / 2)),
-                            (-1 / 2, -ABsqrtN(3, 0, 1 / 2)),
-                            (-1, 0),
-                            (-1 / 2, ABsqrtN(3, 0, 1 / 2)),
-                            (1 / 2, ABsqrtN(3, 0, 1 / 2))])
+            return polygon([(ABsqrtN(3, 1), ABsqrtN(3, 0)),
+                            (ABsqrtN(3, 1 / 2), -ABsqrtN(3, 0, 1 / 2)),
+                            (ABsqrtN(3, -1 / 2), -ABsqrtN(3, 0, 1 / 2)),
+                            (ABsqrtN(3, -1), ABsqrtN(3, 0)),
+                            (ABsqrtN(3, -1 / 2), ABsqrtN(3, 0, 1 / 2)),
+                            (ABsqrtN(3, 1 / 2), ABsqrtN(3, 0, 1 / 2))], 3)
         elif n == 8:
-            return polygon([(1 / 2,  ABsqrtN(2, 1, 1) / 2),
-                            (ABsqrtN(2, 1, 1) / 2,  1 / 2),
-                            (ABsqrtN(2, 1, 1) / 2, -1 / 2),
-                            (1 / 2, -ABsqrtN(2, 1, 1) / 2),
+            return polygon([(ABsqrtN(2, 1 / 2),  ABsqrtN(2, 1, 1) / 2),
+                            (ABsqrtN(2, 1, 1) / 2,  ABsqrtN(2, 1 / 2)),
+                            (ABsqrtN(2, 1, 1) / 2, ABsqrtN(2, -1 / 2)),
+                            (ABsqrtN(2, 1 / 2), -ABsqrtN(2, 1, 1) / 2),
 
-                            (-1 / 2, -ABsqrtN(2, 1, 1) / 2),
-                            (-ABsqrtN(2, 1, 1) / 2, -1 / 2),
-                            (-ABsqrtN(2, 1, 1) / 2, 1 / 2),
-                            (-1 / 2,  ABsqrtN(2, 1, 1) / 2)])
+                            (ABsqrtN(2, -1 / 2), -ABsqrtN(2, 1, 1) / 2),
+                            (-ABsqrtN(2, 1, 1) / 2, ABsqrtN(2, -1 / 2)),
+                            (-ABsqrtN(2, 1, 1) / 2, ABsqrtN(2, 1 / 2)),
+                            (ABsqrtN(2, -1 / 2),  ABsqrtN(2, 1, 1) / 2)], 2)
         else:
             mul = 2 * sin(pi / n)
             return polygon([(cos(-2 * pi / n * i) / mul, sin(-2 * pi / n * i) / mul) for i in range(0, n)])

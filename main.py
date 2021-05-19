@@ -3,7 +3,7 @@
     FILE       : main.py
     AUTHOR     : Andrey Dmitrenko.
     PURPOSE    : Main executable file of the project.
-    LAST UPDATE: 18.05.2021.
+    LAST UPDATE: 19.05.2021.
 """
 
 from render import *
@@ -56,7 +56,7 @@ def draw(rnd):
 
 # Main executable block
 if __name__ == '__main__':
-    rnd = render(500, 500, draw)
+    rnd = render(cor_sys(0, 0, 8, 8, 500, 500), draw)
     init()
 
     rnd.run()

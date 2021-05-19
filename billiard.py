@@ -3,7 +3,7 @@
     FILE       : billiard.py
     AUTHOR     : Andrey Dmitrenko.
     PURPOSE    : Main billiard interface class implementation module.
-    LAST UPDATE: 18.05.2021.
+    LAST UPDATE: 19.05.2021.
 """
 
 from polygon import *
@@ -17,9 +17,10 @@ from seg_ray import *
         plg (polygon): The generative polygon.
         _bound_iter (int): Current boundary iteration.
         bound (array[]): The boundary elements array (rays and segments).
+        corner (bool): The corner mode flag.
         
     Methods:
-        __init__(plg): The constructor.
+        __init__(plg, corner): The constructor.
         transform(p, left): Transform the point by the billiard.
         
         draw_polygon(rnd, color): Draw the generative polygon.
@@ -32,11 +33,13 @@ class billiard:
         The billiard class constructor.
         Arguments:
             plg (polygon): The polygon for the billiard.
+            corner (bool): The corner mode flag.
     '''
-    def __init__(self, plg):
+    def __init__(self, plg, corner=False):
         self.plg = plg
         self.bound = []
         self._bound_iter = 0
+        self.corner = corner
     # End of '__init__' function
 
     '''

@@ -3,7 +3,7 @@
     FILE       : polygon.py
     AUTHOR     : Andrey Dmitrenko.
     PURPOSE    : The polygon class implementation module.
-    LAST UPDATE: 17.05.2021.
+    LAST UPDATE: 19.05.2021.
 """
 
 from math import pi, sin, cos
@@ -45,7 +45,7 @@ class polygon:
     '''
     def draw(self, rnd, color):
         pygame.draw.polygon(rnd.screen, color,
-                            list(map(lambda p: rnd.to_screen((float(p.x), float(p.y))), self.points)))
+                            list(map(lambda p: rnd.cs.to_screen((float(p.x), float(p.y))), self.points)))
     # End of 'draw' function
 
     '''

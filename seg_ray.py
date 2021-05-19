@@ -3,7 +3,7 @@
     FILE       : seg_ray.py
     AUTHOR     : Andrey Dmitrenko.
     PURPOSE    : The segment class implementation module.
-    LAST UPDATE: 18.05.2021.
+    LAST UPDATE: 19.05.2021.
 """
 
 from point import *
@@ -70,6 +70,7 @@ class segment:
 
     Fields:
         p1, p2 (point): The vertex and some point on the ray.
+        is_fin (bool): The flag of finalizing the second point position.
 
     Methods:
         __init__(self, p1, p2): The constructor.
@@ -84,9 +85,7 @@ class ray:
     def __init__(self, p1, p2):
         self.p1 = p1
         self.p2 = p2
-        while (abs(float(self.p2.x)) < render.GLOBAL_W / 2 and
-               abs(float(self.p2.y)) < render.GLOBAL_H / 2):
-            self.p2 += p2 - p1
+        self.is_fin = False
     # End of '__init__' function
 
     '''
@@ -97,6 +96,10 @@ class ray:
         Returns: None.
     '''
     def draw(self, rnd, color):
+        if not self.is_fin:
+            while abs(float(self.p2.x)) < rnd.cs.w / 2 and abs(float(self.p2.y)) < rnd.cs.h / 2:
+                self.p2 += self.p2 - self.p1
+            self.is_fin = True
         rnd.draw_segment(self.p1, self.p2, color)
     # End of 'draw' function
 # End of 'ray' class

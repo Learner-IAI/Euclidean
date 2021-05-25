@@ -3,9 +3,10 @@
     FILE       : point.py
     AUTHOR     : Andrey Dmitrenko.
     PURPOSE    : The 2d-point class implementation module.
-    LAST UPDATE: 18.05.2021.
+    LAST UPDATE: 19.05.2021.
 """
 
+from math import sqrt, cos, sin
 from ABsqrtN import *
 
 
@@ -25,7 +26,8 @@ from ABsqrtN import *
                             (addition, subtraction, multiplication and division).
         __iter__(): Iterate the point (needed for the tuple cast mostly).
         is_right_of(other): Check the vector is 'more to the right' than the other.
-        reflect_about(other): Reflect the point about the other one. 
+        reflect_about(other): Reflect the point about the other one.
+        rotate(cosi): Rotate the point around the origin. 
 '''
 class point:
     '''
@@ -146,6 +148,18 @@ class point:
     def reflect_about(self, other):
         return self + (other - self) * 2
     # End of 'reflect_about' function
+
+    '''
+        Rotate the point around origin.
+        Arguments:
+            cosi (tuple): Cosine and sine of the angle to rotate on.
+        Returns:
+            (point) The rotated point.
+    '''
+    def rotate(self, cosi):
+        return point(self.x * cosi[0] - self.y * cosi[1],
+                     self.x * cosi[1] + self.y * cosi[0], 1)
+    # End of 'rotate' function
 # End of 'point' class
 
 # END OF 'point.py' FILE

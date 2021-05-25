@@ -3,7 +3,7 @@
     FILE       : billiard.py
     AUTHOR     : Andrey Dmitrenko.
     PURPOSE    : Main billiard interface class implementation module.
-    LAST UPDATE: 19.05.2021.
+    LAST UPDATE: 20.05.2021.
 """
 
 from polygon import *
@@ -17,15 +17,19 @@ from seg_ray import *
         plg (polygon): The generative polygon.
         _bound_iter (int): Current boundary iteration.
         bound (array[]): The boundary elements array (rays and segments).
-        corner (bool): The corner mode flag.
         
     Methods:
-        __init__(plg, corner): The constructor.
-        transform(p, left): Transform the point by the billiard.
-        
+        __init__(plg): The constructor.
+
         draw_polygon(rnd, color): Draw the generative polygon.
-        
+
+        transform(p, left): Transform some geometrical object by the billiard.
+        transform_corner(p, left): Transform some geometrical object by the billiard
+                                   in the corner mode.
+                
         build_bound(n): Build the billiard boundary after the n-th iteration.
+        build_bound_corner(n, rnd): Build the billiard boundary after the n-th iteration
+                                    in the corner mode.
         draw_bound(rnd , color): Draw the evaluated boundary.
 '''
 class billiard:
@@ -33,14 +37,23 @@ class billiard:
         The billiard class constructor.
         Arguments:
             plg (polygon): The polygon for the billiard.
-            corner (bool): The corner mode flag.
     '''
-    def __init__(self, plg, corner=False):
+    def __init__(self, plg):
         self.plg = plg
         self.bound = []
         self._bound_iter = 0
-        self.corner = corner
     # End of '__init__' function
+
+    '''
+        Draw the generative polygon.
+        Arguments:
+            rnd (render): The rendering context.
+            color (tuple): 3-component RGB color.
+        Returns: None.
+    '''
+    def draw_polygon(self, rnd, color=(0, 0, 0)):
+        self.plg.draw(rnd, color)
+    # End of 'draw_polygon' function
 
     '''
         Pack the split segment auxiliary function.
@@ -54,7 +67,7 @@ class billiard:
     def pack_split(self, seg, v, left):
         split_pnt = seg.intersect(v)
         if split_pnt is None:  # Just in case
-            raise Exception("OH NO, WHAT A DISASTER!!!")
+            raise Exception("No intersection point when it should exist")
 
         res = []
         first = self.transform(segment(seg.p1, split_pnt), left)
@@ -71,7 +84,7 @@ class billiard:
     # End of 'pack_split' function
 
     '''
-        Transform the point by the billiard.
+        Transform some geometrical object by the billiard.
         Arguments:
             p (point or ray or segment): The object to transform.
             left (bool): Flag to perform left billiard (False by default).
@@ -89,7 +102,8 @@ class billiard:
             if type(v1) is point and type(v2) is point:
                 # Split...
                 if v1 is not v2:
-                    rig = rightest(point(0, 0), [v1, v2], not left)  # Very bugged for the square; seems unfixable
+                    rig = rightest(point(0, 0), [v1, v2], not left)
+                    # Very bugged for the square; seems unfixable
                     v = segment(rig, self.plg.points[(self.plg.points.index(rig) + int(not left))
                                                      % len(self.plg.points)])
                     return self.pack_split(p, v, left)
@@ -126,21 +140,48 @@ class billiard:
                 return self.pack_split(p, v, left)
 
             # Magic happened
-            raise Exception("???????????????????????")
+            raise Exception("Something weird with segment positioning")
         else:  # Ray assumed
             pass
     # End of 'transform' function
 
     '''
-        Draw the generative polygon.
+        Transform some geometrical object by the billiard in the corner mode.
         Arguments:
-            rnd (render): The rendering context.
-            color (tuple): 3-component RGB color.
-        Returns: None.
+            p (point or ray or segment): The object to transform.
+            left (bool): Flag to perform left billiard (False by default).
+        Returns:
+            (point or ray or segment or array[]) The transformed object or several objects
+                                                 (None if the input was wrong). 
     '''
-    def draw_polygon(self, rnd, color=(0, 0, 0)):
-        self.plg.draw(rnd, color)
-    # End of 'draw_polygon' function
+    def transform_corner(self, p, left=False):
+        sides = [self.plg.points[0], self.plg.points[1]]
+
+        if type(p) == point:
+            # Wrong input
+            if rightest(point, self.plg.points, left) is not self.plg.points[0]:
+                return None
+
+            trans = self.transform(point, left)
+            rig = rightest(trans, self.plg.points, left)
+            to_rot = self.plg.ccosi if left else (self.plg.ccosi[0], -self.plg.ccosi[1])
+            # Part 0
+            if rig is self.plg.points[(1 if left else -1) % len(self.plg.points)]:
+                return trans.rotate(to_rot)
+            # Part 1
+            elif rig is self.plg.points[(2 if left else -2) % len(self.plg.points)]:
+                return trans.rotate(to_rot).rotate(to_rot)
+            # Part 2
+            else:
+                return trans.rotate(to_rot).rotate(to_rot).rotate(to_rot)
+        elif type(p) == segment:
+            # Wrong input
+            if (rightest(point.p1, self.plg.points, left) is not self.plg.points[0] or
+                    rightest(point.p2, self.plg.points, left) is not self.plg.points[0]):
+                return None
+        else:  # Ray assumed
+            pass
+    # End of 'transform_corner' function
 
     '''
         Build the billiard boundary after the n-th iteration.
@@ -153,8 +194,24 @@ class billiard:
             return
         self._bound_iter = n
         for i in range(len(self.plg.points)):
-            self.bound.append(ray(self.plg.points[i], self.plg.points[(i + 1) % len(self.plg.points)]))
+            self.bound.append(ray(self.plg.points[i],
+                                  self.plg.points[(i + 1) % len(self.plg.points)]))
     # End of 'build_bound' function
+
+    '''
+        Build the billiard boundary after the n-th iteration in the corner mode.
+        Arguments:
+            n (int): Number of iterations to build boundary for.
+        Returns: None.
+    '''
+    def build_bound_corner(self, n, rnd):
+        if self._bound_iter >= n:
+            return
+        self._bound_iter = n
+
+        self.bound.append(ray(self.plg.points[-1 % len(self.plg.points)], self.plg.points[0]))
+        self.bound.append(ray(self.plg.points[0], self.plg.points[1]))
+    # End of 'build_bound_corner' function
 
     '''
         Draw the evaluated boundary.

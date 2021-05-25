@@ -48,8 +48,8 @@ class cor_sys:
             (tuple) Two integers representing the coordinates of the resulting pixel. 
     '''
     def to_screen(self, xy):
-        return (int(((float(xy[0]) - self.cx) + self.w / 2) / self.w * self.sw),
-                int(((float(-xy[1]) - self.cy) + self.h / 2) / self.h * self.sh))
+        return (int(((float(xy[0]) + self.cx) + self.w / 2) / self.w * self.sw),
+                int(((float(-(xy[1] + self.cy))) + self.h / 2) / self.h * self.sh))
     # End of 'to_screen' function
 # End of 'cor_sys' class
 
